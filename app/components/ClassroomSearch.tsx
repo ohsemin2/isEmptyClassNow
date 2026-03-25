@@ -155,13 +155,16 @@ export default function ClassroomSearch({ data }: { data: AllData }) {
     if (!building) return [];
     return data.classrooms
       .filter(c => c.building === building)
-      .map(c => c.room)
+      .map(c => c.room.replace('(무선랜제공)', ''))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
   }, [building, data]);
 
   const selectedClassroom = useMemo(() => {
     if (!building || !room) return null;
-    return data.classrooms.find(c => c.building === building && c.room === room) ?? null;
+    return data.classrooms.find(c =>
+      c.building === building &&
+      (c.room === room || c.room === room + '(무선랜제공)')
+    ) ?? null;
   }, [building, room, data]);
 
   const todaySlots: TimeSlot[] = useMemo(() => {
