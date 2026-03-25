@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated data (built by scripts/generate-data.mjs)
+/generated/
+
+# duplicate XLS in public (canonical copy is in /data)
+/public/강좌검색.xls
