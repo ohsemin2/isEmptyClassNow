@@ -80,8 +80,8 @@ function AutocompleteInput({
           {filtered.map((s, i) => (
             <li
               key={s}
-              className={`px-4 py-2 cursor-pointer text-sm transition-colors
-                ${i === highlighted ? 'bg-blue-50 text-blue-700' : 'hover:bg-gray-50'}`}
+              className={`px-4 py-2 cursor-pointer text-sm text-gray-900
+                ${i === highlighted ? 'bg-gray-100' : 'hover:bg-gray-50'}`}
               onMouseEnter={() => setHighlighted(i)}
               onMouseDown={() => { onChange(s); setOpen(false); }}
             >
@@ -287,7 +287,7 @@ export default function ClassroomSearch({ data }: { data: AllData }) {
                 {DAY_LABELS[selectedDay]} 시간표
               </h2>
               {todaySlots.length === 0 ? (
-                <p className="text-gray-500 text-sm">오늘 수업 없음 — 하루 종일 비어있습니다</p>
+                <p className="text-gray-500 text-sm">수업 없음 — 하루 종일 비어있습니다</p>
               ) : (
                 <TimelineBar occupied={todaySlots} free={freeSlots} now={now} />
               )}
@@ -301,12 +301,11 @@ export default function ClassroomSearch({ data }: { data: AllData }) {
                 </h2>
                 <ul className="space-y-2">
                   {freeSlots.map((s, i) => {
-                    const isCurrent = now >= s.start && now < s.end;
-                    const isPast = s.end <= now;
+                    const isCurrent = isToday && now >= s.start && now < s.end;
                     return (
                       <li key={i} className={`flex items-center gap-3 px-4 py-2.5 rounded-[3px] text-sm
-                        ${isCurrent ? 'bg-green-50 text-green-800 font-medium' : isPast ? 'opacity-40' : 'text-gray-700'}`}>
-                        <span className={`w-2 h-2 rounded-[3px] flex-shrink-0 ${isCurrent ? 'bg-green-500' : isPast ? 'bg-gray-300' : 'bg-green-300'}`} />
+                        ${isCurrent ? 'bg-green-50 text-green-800 font-medium' : 'text-gray-900'}`}>
+                        <span className={`w-2 h-2 rounded-[3px] flex-shrink-0 ${isCurrent ? 'bg-green-500' : 'bg-gray-300'}`} />
                         {s.start} ~ {s.end}
                         {isCurrent && <span className="ml-auto text-xs font-semibold text-green-600 bg-green-100 px-2 py-0.5 rounded-[3px]">지금</span>}
                       </li>
@@ -326,12 +325,11 @@ export default function ClassroomSearch({ data }: { data: AllData }) {
                   {[...todaySlots]
                     .sort((a, b) => a.start.localeCompare(b.start))
                     .map((s, i) => {
-                      const isCurrent = now >= s.start && now < s.end;
-                      const isPast = s.end <= now;
+                      const isCurrent = isToday && now >= s.start && now < s.end;
                       return (
                         <li key={i} className={`flex items-center gap-3 px-4 py-2.5 rounded-[3px] text-sm
-                          ${isCurrent ? 'bg-red-50 text-red-800 font-medium' : isPast ? 'opacity-40' : 'text-gray-700'}`}>
-                          <span className={`w-2 h-2 rounded-[3px] flex-shrink-0 ${isCurrent ? 'bg-red-500' : isPast ? 'bg-gray-300' : 'bg-red-300'}`} />
+                          ${isCurrent ? 'bg-red-50 text-red-800 font-medium' : 'text-gray-900'}`}>
+                          <span className={`w-2 h-2 rounded-[3px] flex-shrink-0 ${isCurrent ? 'bg-red-500' : 'bg-gray-300'}`} />
                           {s.start} ~ {s.end}
                           {isCurrent && <span className="ml-auto text-xs font-semibold text-red-600 bg-red-100 px-2 py-0.5 rounded-[3px]">수업 중</span>}
                         </li>
